@@ -2,6 +2,8 @@ package page;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,16 +12,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import DB_User.User;
+import page.DOKPage.EventHandler;
+
 public class ChartPage extends JFrame{
 	private final static int PaddingLeft = 150;
 	private final static int PaddingTop = 50;
-	private final static double PanelHeight = Main.SCREEN_HEIGHT * 1.4;
+	private final static int PanelHeight = Main.SCREEN_HEIGHT * 2 ;
+	
+	
+	private User user;
 	
 	//component
-	private CategoryPanel c1 = new CategoryPanel();	//카테고리 panel
+	private CategoryPanel c1 = new CategoryPanel();
+	
+	
 	private JPanel jp = new JPanel();
-	
-	
 	
 	// size
 	private Dimension size = new Dimension();// 사이즈를 지정하기 위한 객체 생성
@@ -32,11 +40,13 @@ public class ChartPage extends JFrame{
 	JButton jbtnTaste = new JButton("취향");
 	
 	JLabel[][] jlPoster = new JLabel[4][2];
-	JButton[] jbtnTicket = new JButton[4];
-	
-	
+	JButton[][] jbtnTicket = new JButton[4][2];
 	
 	public ChartPage() {
+		
+	}
+	
+	public ChartPage(User user) {
 		super("영화 차트");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setResizable(false);
@@ -44,6 +54,17 @@ public class ChartPage extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);	//레이아웃 null
 		setVisible(true);
+		
+		
+		this.user = user;
+		//카테고리 Panel
+		c1 = new CategoryPanel(user);	//카테고리 panel
+		for(int i=0; i<c1.jbtnCategory.length; i++) {
+			c1.jbtnCategory[i].addActionListener(new EventHandler());
+		}
+		add(c1);
+	
+		
 		
 		//장르
 		jlGenre.setBounds(PaddingLeft, PaddingTop, 75, 40);
@@ -70,7 +91,7 @@ public class ChartPage extends JFrame{
 			for(int j = 0; j < jlPoster[i].length; j++) {
 				jlPoster[i][j] = new JLabel();
 				
-				jlPoster[i][j].setBounds(PaddingLeft + (i * 325), PaddingTop + 100 + (j * 500), 200, 300);
+				jlPoster[i][j].setBounds(PaddingLeft + (i * 325), PaddingTop + 100 + (j * 400), 200, 300);
 				jlPoster[i][j].setOpaque(true);
 				jlPoster[i][j].setBackground(Color.GRAY);
 				jp.add(jlPoster[i][j]);
@@ -78,27 +99,16 @@ public class ChartPage extends JFrame{
 		}
 		
 		for(int i = 0; i < jbtnTicket.length; i++) {
-			jbtnTicket[i] = new JButton("예매");
+			for(int j = 0; j < jbtnTicket[i].length; j++) {
+				jbtnTicket[i][j] = new JButton("예매");
 				
-			jbtnTicket[i].setBounds(PaddingLeft + (i * 325), PaddingTop + 415 /*(j * 350)*/, 200, 40);
-			jbtnTicket[i].setOpaque(true);
-			jbtnTicket[i].setBackground(Color.GREEN);
-			jp.add(jbtnTicket[i]);
+				jbtnTicket[i][j].setBounds(PaddingLeft + (i * 325), PaddingTop + 415 /*(j * 350)*/, 200, 40);
+				jbtnTicket[i][j].setOpaque(true);
+				jbtnTicket[i][j].setBackground(Color.GREEN);
+				jp.add(jbtnTicket[i][j]);
+			}
 		}
 		
-		for(int i = 0; i < jbtnTicket.length; i++) {
-			jbtnTicket[i] = new JButton("예매");
-				
-			jbtnTicket[i].setBounds(PaddingLeft + (i * 325), PaddingTop + 915 /*(j * 350)*/, 200, 40);
-			jbtnTicket[i].setOpaque(true);
-			jbtnTicket[i].setBackground(Color.GREEN);
-			jp.add(jbtnTicket[i]);
-		}
-		
-		
-		
-		//카테고리 Panel
-		add(c1);
 		
 		
 		//Panel
@@ -112,6 +122,25 @@ public class ChartPage extends JFrame{
 		sp.setBounds(0, (int) (Main.SCREEN_HEIGHT*0.25), Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		add(sp);
 		
+		
+	}
+	class EventHandler implements ActionListener{
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource()==c1.jbtnCategory[0]) {//홈
+				new DOKPage(user);
+			}else if(e.getSource()==c1.jbtnCategory[1]) {//영화
+				new ChartPage(user);
+			}else if(e.getSource()==c1.jbtnCategory[2]) {//예매
+				new Reservation_start_page(user);
+			}else if(e.getSource()==c1.jbtnCategory[3]) {//마이 페이지
+				new MyPage(user);
+			}
+			dispose();
+			
+		}
+		
 	}
 }

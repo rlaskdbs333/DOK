@@ -23,12 +23,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import DB_User.DBUserInfo;
+import DB_User.DBuserInfo;
 
 public class SignUpPage extends JFrame {
 
 	// DB
-	DBUserInfo coneection = new DBUserInfo();
+	DBuserInfo coneection = new DBuserInfo();
 
 	// À§Ä¡
 	private final static int C_X = Main.SCREEN_WIDTH / 2 - 250;

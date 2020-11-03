@@ -1,6 +1,5 @@
 package page;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,9 +7,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
+
+import DB_User.User;
 
 public class CategoryPanel extends JPanel{
 
@@ -24,17 +25,23 @@ public class CategoryPanel extends JPanel{
 	private JLabel jlLogo = new JLabel();
 	private JButtonT jbtnLogin = new JButtonT();
 	private JButtonT jbtnSignUp = new JButtonT();
-	private JButtonT[] jbtnCategory = new JButtonT[4]; 
+	JButtonT[] jbtnCategory = new JButtonT[4]; 
 	private String[] category = {"홈","영화","예매","마이 페이지"};
+	
+	
+	private User user = new User();
 	
 	//font
 	private Font font1 = new Font(null,Font.PLAIN,20);
 	private Font font2 = new Font(null,Font.PLAIN,40);
 	
-	public CategoryPanel() {
+	public CategoryPanel() {}
+	public CategoryPanel(User user) {
 		setBackground(Color.YELLOW);
 		setBounds(0, 0, Main.SCREEN_WIDTH, (int) (Main.SCREEN_HEIGHT*0.25));
 		setLayout(null);
+		
+		this.user = user;
 		
 		//Logo 
 		jlLogo.setIcon(imgLogo);
@@ -57,25 +64,7 @@ public class CategoryPanel extends JPanel{
 			jbtnCategory[i].setFont(font2);
 			jbtnCategory[i].setBounds(i*Main.SCREEN_WIDTH/4, 180, Main.SCREEN_WIDTH/4, 80);
 			add(jbtnCategory[i]);
-			jbtnCategory[i].addActionListener(new EventHandler());
-			
-		}
-		
-	}
-	class EventHandler implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			if(e.getSource()==jbtnCategory[0]) {//홈
-				new DOKPage();
-			}else if(e.getSource()==jbtnCategory[1]) {//영화
-				//new
-			}else if(e.getSource()==jbtnCategory[2]) {//예매
-				new Reservation_start_page();
-			}else if(e.getSource()==jbtnCategory[3]) {//마이 페이지
-				
-			}
+			//jbtnCategory[i].addActionListener(new EventHandler());
 			
 		}
 		

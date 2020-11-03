@@ -7,12 +7,11 @@ public class Main {
 	public static void main(String[] args) {
 
 		//new DOKPage();
-		//new LoginPage();
+		new LoginPage();
 		//new SignUpPage();
 		//new Reservation_start_page();
 		//new MyPage();
-		new ChartPage();
-		//new P_InformationPage();
+		//new ChartPage();
 	}
 
 }

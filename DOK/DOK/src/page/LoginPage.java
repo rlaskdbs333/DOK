@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import DB_User.DBSelectUserInfo;
+import DB_User.DBuserInfo;
+import DB_User.User;
 
 public class LoginPage extends JFrame{
 	//위치 
@@ -23,6 +24,9 @@ public class LoginPage extends JFrame{
 	private final static int PWLable_Y = 400;
 	private final static int PWTextF_Y = 500;
 	private final static int LoginBtn_Y = 700;
+	
+	
+	private  User user = new User();
 	
 	//component
 	private JPanel jp = new JPanel();
@@ -37,7 +41,7 @@ public class LoginPage extends JFrame{
 	
 	
 	
-	private DBSelectUserInfo connection = new DBSelectUserInfo();	//DB연결 클래스
+	private DBuserInfo connection = new DBuserInfo();	//DB연결 클래스
 	private String userID,userPassword;
 	
 	//font
@@ -109,10 +113,12 @@ public class LoginPage extends JFrame{
 				
 				userID = jtId.getText();
 				userPassword = jtPw.getText();
-				
+				//System.out.println(connection.getUserInfo(userID).getUserID());
 				boolean success = connection.isUser(userID, userPassword);
 				if(success) {//성공
-					new DOKPage();
+					user = connection.getUserInfo(userID);
+					new DOKPage(user);
+					
 					setVisible(false);
 				}else {
 					JOptionPane message =new JOptionPane();//메시지 박스 객체
