@@ -13,12 +13,12 @@ public class Main {
 		
 		//new DOKPage(user);
 		//new  Reservation_start_page();
-		new LoginPage();
+		//new LoginPage();
 		//new MovieSitPage();
 		//new SignUpPage();
 		//new Reservation_start_page();
 		//new MyPage(user);
-		//new ChartPage(user);
+		new ChartPage(user);
 		//new P_InformationPage(user);
 		//new ChartPage();
 	}

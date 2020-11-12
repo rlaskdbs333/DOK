@@ -24,16 +24,17 @@ public class CategoryFrame extends JFrame implements ActionListener{
 	//component
 	 private JPanel top_panel = new JPanel();
 	 private ImageIcon img_logo = new ImageIcon("src/imges/dok.png");	//로고 이미지
-	 private JLabel logo = new JLabel();
+	 private JLabel logo = new JLabel("DoK");
 	 private JButtonT btn_login = new JButtonT();
 	 private JButtonT btn_signUp = new JButtonT();
 	 private JButton[] btn_category = new JButton[4]; 
-	 private String[] string_category = {"홈","영화","예매","마이 페이지"};	
+	 private String[] string_category = {"HOME","MOVIE","Reservation","MyPage"};	
 	
 	//font
+	 protected Font Logo = new Font("Franklin Gothic Heavy", Font.PLAIN, 120);
 	 protected Font font1 = new Font("나눔바른고딕", Font.PLAIN, 20);
 	 protected Font font2 = new Font("나눔바른고딕", Font.BOLD, 40);
-	 protected Font font3 = new Font("나눔바른고딕", Font.PLAIN, 30);
+	 protected Font font3 = new Font("Franklin Gothic Heavy", Font.PLAIN, 30);
 	
 	 //user정보
 	 protected User user = new User();
@@ -56,8 +57,12 @@ public class CategoryFrame extends JFrame implements ActionListener{
 		add(top_panel);
 		
 		//Logo 
-		logo.setIcon(img_logo);
-		logo.setBounds(Main.SCREEN_WIDTH/2 -100 ,30,200,100);
+		//logo.setIcon(img_logo);
+		//logo.setBounds(Main.SCREEN_WIDTH/2 -100 ,30,200,100);
+		//top_panel.add(logo);
+		
+		logo.setBounds(625, 10, 275, 150);
+		logo.setFont(Logo);
 		top_panel.add(logo);
 		
 
@@ -74,10 +79,10 @@ public class CategoryFrame extends JFrame implements ActionListener{
 			btn_category[i] = new JButton();
 			btn_category[i].setText(string_category[i]);
 			btn_category[i].setFont(font3);
-			btn_category[i].setBounds(i*Main.SCREEN_WIDTH/4, 180, Main.SCREEN_WIDTH/4, 80);
+			btn_category[i].setBounds(200 + (i * 270), 180, 275, 50);
 			btn_category[i].setBackground(Color.WHITE);
 			//setFocusPainted(false);
-			btn_category[i].setBorderPainted(false);
+			//btn_category[i].setBorderPainted(false);
 			top_panel.add(btn_category[i]);
 			btn_category[i].addActionListener(this);
 			

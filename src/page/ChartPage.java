@@ -25,8 +25,8 @@ import User.User;
 public class ChartPage extends CategoryFrame {
 	
 	//pos
-	private final static int Padding_Left = 150;
-	private final static int Padding_Top = 75;
+	private final static int Padding_Left = 130;
+	private final static int Padding_Top = 50;
 	private final static double Panel_Height = Main.SCREEN_HEIGHT * 1.4 ;
 	
 	// size
@@ -49,6 +49,8 @@ public class ChartPage extends CategoryFrame {
 	private JLabel[][] jlposter = new JLabel[2][4];
 	private JLabel[][] jlmovie_info = new JLabel[2][4];
 	private JLabel[] jlrank = new JLabel[8];
+	private JLabel[] jlopen_day = new JLabel[8];
+	private JLabel[] jlRaing = new JLabel[8];
 	private JLabel[] jlrank_name = new JLabel[8];
 	private ImageIcon imgPoster = new ImageIcon();
 	
@@ -57,9 +59,9 @@ public class ChartPage extends CategoryFrame {
 	ChartEvent listener = new ChartEvent();
 	
 	//Design
-	Font m_name_font = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 17);
+	Font m_name_font = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 25);
 	Font m_rank_font = new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20);
-	Font option_font = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 20);
+	Font option_font = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15);
 	
 	public ChartPage() {
 		
@@ -78,58 +80,57 @@ public class ChartPage extends CategoryFrame {
 		this.user = user;
 		
 		//Àå¸£
-		jlgenre.setBounds(Padding_Left, Padding_Top, 75, 40);
-		jlgenre.setFont(option_font);
-		jlgenre.setHorizontalAlignment(JLabel.CENTER);
-		jpanel.add(jlgenre);
-		
-		comboBox.setBounds(Padding_Left + 75, Padding_Top, 200, 40);
-		comboBox.setFont(m_name_font);
-		jpanel.add(comboBox);
+		/*
+		 * jlgenre.setBounds(Padding_Left, Padding_Top, 75, 40);
+		 * jlgenre.setFont(option_font); jlgenre.setHorizontalAlignment(JLabel.CENTER);
+		 * jpanel.add(jlgenre);
+		 * 
+		 * comboBox.setBounds(Padding_Left + 75, Padding_Top, 200, 40);
+		 * comboBox.setFont(m_name_font); jpanel.add(comboBox);
+		 */
 		
 		//ÆòÁ¡
-		btn_rating.setBounds(Padding_Left + 375, Padding_Top, 125, 40);
-		btn_rating.setBackground(Color.PINK);
-		btn_rating.setFont(option_font);
-		btn_rating.setHorizontalAlignment(JButton.CENTER);
-		btn_rating.addActionListener(new ChartEvent());
-		jpanel.add(btn_rating);
-		
-		//°ü°´ ¼ö
-		btn_audience.setBounds(Padding_Left + 600, Padding_Top, 125, 40);
-		btn_audience.setBackground(Color.PINK);
-		btn_audience.setFont(option_font);
-		btn_audience.setHorizontalAlignment(JButton.CENTER);
-		btn_audience.addActionListener(new ChartEvent());
-		jpanel.add(btn_audience);
-		
-		//°³ºÀ³¯Â¥
-		btn_openday.setBounds(Padding_Left + 825, Padding_Top, 125, 40);
-		btn_openday.setBackground(Color.PINK);
-		btn_openday.setFont(option_font);
-		btn_openday.setHorizontalAlignment(JButton.CENTER);
-		btn_openday.addActionListener(new ChartEvent());
-		jpanel.add(btn_openday);
-		
-		//°¡³ª´Ù
-		btn_ganada.setBounds(Padding_Left + 1050, Padding_Top, 125, 40);
-		btn_ganada.setBackground(Color.PINK);
-		btn_ganada.setFont(option_font);
-		btn_ganada.setHorizontalAlignment(JButton.CENTER);
-		btn_ganada.addActionListener(new ChartEvent());
-		jpanel.add(btn_ganada);
+//		btn_rating.setBounds(Padding_Left + 375, Padding_Top, 125, 40);
+//		btn_rating.setBackground(Color.PINK);
+//		btn_rating.setFont(option_font);
+//		btn_rating.setHorizontalAlignment(JButton.CENTER);
+//		btn_rating.addActionListener(new ChartEvent());
+//		jpanel.add(btn_rating);
+//		
+//		//°ü°´ ¼ö
+//		btn_audience.setBounds(Padding_Left + 600, Padding_Top, 125, 40);
+//		btn_audience.setBackground(Color.PINK);
+//		btn_audience.setFont(option_font);
+//		btn_audience.setHorizontalAlignment(JButton.CENTER);
+//		btn_audience.addActionListener(new ChartEvent());
+//		jpanel.add(btn_audience);
+//		
+//		//°³ºÀ³¯Â¥
+//		btn_openday.setBounds(Padding_Left + 825, Padding_Top, 125, 40);
+//		btn_openday.setBackground(Color.PINK);
+//		btn_openday.setFont(option_font);
+//		btn_openday.setHorizontalAlignment(JButton.CENTER);
+//		btn_openday.addActionListener(new ChartEvent());
+//		jpanel.add(btn_openday);
+//		
+//		//°¡³ª´Ù
+//		btn_ganada.setBounds(Padding_Left + 1050, Padding_Top, 125, 40);
+//		btn_ganada.setBackground(Color.PINK);
+//		btn_ganada.setFont(option_font);
+//		btn_ganada.setHorizontalAlignment(JButton.CENTER);
+//		btn_ganada.addActionListener(new ChartEvent());
+//		jpanel.add(btn_ganada);
 		
 		//1~8 ¼øÀ§ 
 		for(int i = 0; i < jlrank.length; i++) {
 			jlrank[i] = new JLabel((i + 1) + "");
 			
 			if(i < 4) {
-				jlrank[i].setBounds(Padding_Left + 185 + (i * 325), Padding_Top + 140, 40, 40);
+				jlrank[i].setBounds(Padding_Left - 10 + (i * 260), Padding_Top, 40, 40);
+				
 			}else {
-				jlrank[i].setBounds(-965 + (i * 325), Padding_Top + 640, 40, 40);
+				jlrank[i].setBounds(Padding_Left -10 +((i-(jlrank.length/2)) * 260), Padding_Top+500, 40, 40);
 			}
-			
-			
 			jlrank[i].setOpaque(true);
 			jlrank[i].setBackground(Color.PINK);
 			jlrank[i].setFont(m_rank_font);
@@ -146,7 +147,7 @@ public class ChartPage extends CategoryFrame {
 				//String src = "src/imges/°Ü¿ï ¿Õ±¹.jpg";
 				imgPoster = new ImageIcon(src);
 				jlposter[i][j] = new JLabel(imgPoster);
-				jlposter[i][j].setBounds(Padding_Left - 10 + (j * 325), Padding_Top + 150 + (i * 500), 225, 300);
+				jlposter[i][j].setBounds(Padding_Left - 10 + (j * 260), Padding_Top + (i * 500), 230, 330);
 				jlposter[i][j].setOpaque(true);
 				jlposter[i][j].setBackground(Color.GRAY);
 				jlposter[i][j].addMouseListener(listener);
@@ -156,33 +157,52 @@ public class ChartPage extends CategoryFrame {
 		}
 		
 		//¿µÈ­ Á¤º¸ Ãâ·Â(¸¶¿ì½º ¿Ã·ÈÀ»¶§)
-		for(int i = 0; i < jlmovie_info.length; i++) {
-			for(int j = 0; j < jlmovie_info[i].length; j++) {
-				jlmovie_info[i][j] = new JLabel();
-				
-				jlmovie_info[i][j].setBounds(Padding_Left - 10 + (j * 325), Padding_Top + 150 + (i * 500), 225, 300);
-				jlmovie_info[i][j].setOpaque(true);
-				
-				jlmovie_info[i][j].setBackground(Color.RED);
-				jlmovie_info[i][j].addMouseListener(listener);
-				jpanel.add(jlmovie_info[i][j]);
-			}
-		}
 		
-		//·©Å·¼øÀ§ 
+		  for(int i = 0; i < jlmovie_info.length; i++) {
+			  for(int j = 0; j <jlmovie_info[i].length; j++) {
+				  jlmovie_info[i][j] = new JLabel();
+				  jlmovie_info[i][j].setBounds(Padding_Left - 10 + (j * 260), Padding_Top + (i * 500), 230, 330); 
+				  jlmovie_info[i][j].setOpaque(true);
+				  jlmovie_info[i][j].setBackground(Color.RED);
+				  jlmovie_info[i][j].addMouseListener(listener);
+				  jpanel.add(jlmovie_info[i][j]); 
+			  }
+		 }
+		 
+		
+		//¿µÈ­ ÀÌ¸§,Á¤º¸µé
 		for(int i = 0; i < jlrank_name.length; i++) {
 			jlrank_name[i] = new JLabel();
-			
+			jlRaing[i] = new JLabel();
+			jlopen_day[i] = new JLabel();
 			if(i < 4) {
-				jlrank_name[i].setBounds(Padding_Left - 10 + (i * 325), Padding_Top + 465, 225, 40);
+				jlrank_name[i].setBounds(5+Padding_Left - 10 + (i * 260), Padding_Top+330, 225, 40);
+				jlRaing[i].setBounds(5+Padding_Left - 10 + (i * 260), Padding_Top+370, 60, 40);
+				jlopen_day[i].setBounds(65+Padding_Left - 10 + (i * 260), Padding_Top+370, 160, 40);
 			}else {
-				jlrank_name[i].setBounds(-1160 + (i * 325), Padding_Top + 965, 225, 40);
+				jlrank_name[i].setBounds(10+Padding_Left -10 +((i-(jlrank.length/2)) * 260), Padding_Top+500+330 ,225, 40);
+				jlRaing[i].setBounds(10+Padding_Left -10 +((i-(jlrank.length/2)) * 260), Padding_Top+500+370, 60, 40);
+				jlopen_day[i].setBounds(70+Padding_Left -10 +((i-(jlrank.length/2)) * 260), Padding_Top+500+370, 160, 40);
 			}
-			
+			//ÀÌ¸§
 			jlrank_name[i].setText(movies[i].getM_name());
 			jlrank_name[i].setFont(m_name_font);
-			jlrank_name[i].setHorizontalAlignment(JLabel.CENTER);
+			//jlrank_name[i].setOpaque(true);
+			//jlrank_name[i].setBackground(Color.YELLOW);
 			jpanel.add(jlrank_name[i]);
+			//ÆòÁ¡
+			jlRaing[i].setText("ÆòÁ¡"+movies[i].getRating());
+			jlRaing[i].setFont(option_font);
+			//jlRaing[i].setOpaque(true);
+			//jlRaing[i].setBackground(Color.GREEN);
+			jpanel.add(jlRaing[i]);
+			//°³ºÀÀÏ
+			jlopen_day[i].setText("  °³ºÀÀÏ"+movies[i].getOpen_day());
+			jlopen_day[i].setFont(option_font);
+			//jlopen_day[i].setOpaque(true);
+			//jlopen_day[i].setBackground(Color.RED);
+			jpanel.add(jlopen_day[i]);
+			
 		}
 		
 		//Panel
