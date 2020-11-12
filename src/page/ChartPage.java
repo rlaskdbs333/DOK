@@ -39,6 +39,7 @@ public class ChartPage extends CategoryFrame {
 	
 	//component
 	private JPanel jpanel = new JPanel();
+	private JPanel selectPanel = new JPanel();
 	private JLabel jlgenre = new JLabel("장르");
 	private String[] string_genre = {"전체", "공포", "드라마", "로맨스", "스릴러", "애니메이션", "액션", "SF"};
 	private JComboBox comboBox = new JComboBox(string_genre);
@@ -79,15 +80,12 @@ public class ChartPage extends CategoryFrame {
 		this.movies = moive_connect.getMovieInfoAll("rating");
 		this.user = user;
 		
+		
 		//장르
-		/*
-		 * jlgenre.setBounds(Padding_Left, Padding_Top, 75, 40);
-		 * jlgenre.setFont(option_font); jlgenre.setHorizontalAlignment(JLabel.CENTER);
-		 * jpanel.add(jlgenre);
-		 * 
-		 * comboBox.setBounds(Padding_Left + 75, Padding_Top, 200, 40);
-		 * comboBox.setFont(m_name_font); jpanel.add(comboBox);
-		 */
+		jlgenre.setBounds(Padding_Left, Padding_Top, 75, 40);
+		jlgenre.setFont(option_font); jlgenre.setHorizontalAlignment(JLabel.CENTER);
+		selectPanel.add(jlgenre);
+		 
 		
 		//평점
 //		btn_rating.setBounds(Padding_Left + 375, Padding_Top, 125, 40);
@@ -205,14 +203,19 @@ public class ChartPage extends CategoryFrame {
 			
 		}
 		
-		//Panel
+		//Panel_movie
 		size.setSize(Main.SCREEN_WIDTH, Panel_Height);
 		jpanel.setBackground(Color.WHITE);
 		jpanel.setPreferredSize(size);
 		jpanel.setLayout(null);
 		
+		//panel_select
+		selectPanel.setBounds((int)(Main.SCREEN_WIDTH*0.8), (int) (Main.SCREEN_HEIGHT*0.25), (int)(Main.SCREEN_WIDTH*0.2), Main.SCREEN_HEIGHT);
+		selectPanel.setBackground(Color.WHITE);
+		add(selectPanel);
+		
 		JScrollPane sp = new JScrollPane(jpanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sp.setBounds(0, (int) (Main.SCREEN_HEIGHT*0.25), Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+		sp.setBounds(0, (int) (Main.SCREEN_HEIGHT*0.25), (int)(Main.SCREEN_WIDTH*0.8), Main.SCREEN_HEIGHT);
 		add(sp);
 		
 		
