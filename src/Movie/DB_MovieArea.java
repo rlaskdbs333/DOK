@@ -24,10 +24,10 @@ public class DB_MovieArea {
 	
 	
 	
-	public void makeMovie_Area(int area_key, String hall, String yymmdd, String startTime, int movieKey, int vacantSeat, String seatState ) {
+	public void makeMovie_Area(int area_key, String hall, int weeks, String startTime, int movieKey, int vacantSeat, String seatState ) {
 		try{
-			String SQL = "INSERT INTO moviearea(area_key, hall , yymmdd, startTime, movieKey, vacantSeat, seatState)"
-					+"VALUES(\""+area_key+"\",\""+hall+"\",\""+yymmdd+"\",\""+startTime+"\",\""+movieKey+"\",\""+vacantSeat+"\",\""+seatState+"\");";
+			String SQL = "INSERT INTO moviearea(area_key, hall , weeks, startTime, movieKey, vacantSeat, seatState)"
+					+"VALUES(\""+area_key+"\",\""+hall+"\",\""+weeks+"\",\""+startTime+"\",\""+movieKey+"\",\""+vacantSeat+"\",\""+seatState+"\");";
 			//System.out.println(SQL);
 			
 			int success = st.executeUpdate(SQL);

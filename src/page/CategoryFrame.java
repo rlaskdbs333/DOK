@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import User.User;
 
-public class CategoryFrame extends JFrame implements ActionListener{
+public class CategoryFrame extends JFrame {
 	
 	//위치
 	 final static int loginBtn_X = (int) (Main.SCREEN_WIDTH*0.7);
@@ -25,8 +25,8 @@ public class CategoryFrame extends JFrame implements ActionListener{
 	 private JPanel top_panel = new JPanel();
 	 private ImageIcon img_logo = new ImageIcon("src/imges/dok.png");	//로고 이미지
 	 private JLabel logo = new JLabel("DoK");
-	 private JButtonT btn_login = new JButtonT();
-	 private JButtonT btn_signUp = new JButtonT();
+	 private JButton btn_login = new JButton();
+	 private JButton btn_signUp = new JButton();
 	 private JButton[] btn_category = new JButton[4]; 
 	 private String[] string_category = {"HOME","MOVIE","Reservation","MyPage"};	
 	
@@ -84,36 +84,33 @@ public class CategoryFrame extends JFrame implements ActionListener{
 			//setFocusPainted(false);
 			//btn_category[i].setBorderPainted(false);
 			top_panel.add(btn_category[i]);
-			btn_category[i].addActionListener(this);
+			btn_category[i].addActionListener(new categoryEvent());
 			
 		}
 		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getSource()==btn_category[0]) {//홈
-			new DOKPage(user);
-		}else if(e.getSource() == btn_category[1]) {//영화
-			new ChartPage(user);
-		}else if(e.getSource() == btn_category[2]) {//예매
-			new Reservation_start_page(user);
-			//new MovieSitPage();
-		}else if(e.getSource() == btn_category[3]) {//마이 페이지
-			new MyPage(user);
+	class categoryEvent implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource()==btn_category[0]) {//홈
+				new DOKPage(user);
+			}else if(e.getSource() == btn_category[1]) {//영화
+				new ChartPage(user);
+			}else if(e.getSource() == btn_category[2]) {//예매
+				new Reservation_start_page(user);
+				//new MovieSitPage();
+			}else if(e.getSource() == btn_category[3]) {//마이 페이지
+				new MyPage(user);
+			}
+			dispose();
 		}
-		dispose();
+	
+	
 	}
-	
-	
 }
 
-class JButtonT extends JButton{
-	public JButtonT() {
-		//선 X
-		setFocusPainted(false);
-		setBorderPainted(false);
-		setBackground(Color.PINK);
-	}
-}
+
+	

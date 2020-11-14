@@ -70,7 +70,7 @@ public class MakeMovieArea {
 				random = (int)(Math.random()*70);
 				for(int l=0; l<4; l++) {
 					//System.out.println(theterinfo[i].get_key()+","+hallName[j]+","+hall_time[j][l]+","+movie[random].get_key());
-					movieArea_connect.makeMovie_Area(theterinfo[i].get_key(),hallName[j],"2020-12-03", hall_time[j][l],movie[random].get_key(),seat,seatState);
+					movieArea_connect.makeMovie_Area(theterinfo[i].get_key(),hallName[j],4, hall_time[j][l],movie[random].get_key(),seat,seatState);
 				}
 			}
 		}

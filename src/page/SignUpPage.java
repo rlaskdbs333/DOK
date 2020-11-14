@@ -13,6 +13,7 @@ import java.sql.Connection;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -73,7 +74,7 @@ public class SignUpPage extends JFrame {
 	private JRadioButton man = new JRadioButton("남자");
 	private JTextField input_phone = new JTextField();
 	private JCheckBox[] checkbox_taste = new JCheckBox[Taste_N];
-	private JButtonT btn_signUp = new JButtonT();
+	private JButton btn_signUp = new JButton();
 
 	
 	//변수

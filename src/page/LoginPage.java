@@ -35,8 +35,8 @@ public class LoginPage extends JFrame{
 	private JTextField jtId = new JTextField();
 	private JLabel jlPw = new JLabel("PassWord");
 	private JPasswordField jtPw = new JPasswordField();
-	private JButtonT jbtnLogin = new JButtonT();
-	private JButtonT jbtnSingUp = new JButtonT();
+	private JButton jbtnLogin = new JButton();
+	private JButton jbtnSingUp = new JButton();
 	private ImageIcon imgLogo = new ImageIcon("src/imges/dok.png");
 	private JLabel jlLogo = new JLabel();
 	private JLabel designImg = new JLabel();

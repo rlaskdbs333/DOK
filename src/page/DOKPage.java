@@ -24,15 +24,20 @@ public class DOKPage extends CategoryFrame {
 	//component
 	private JPanel panel = new JPanel();
 	private JLabel boxoffice = new JLabel();
-	private JButtonT btn_plusMovie = new JButtonT();
+	private JButton btn_plusMovie = new JButton();
 	private JButton[] btn_Movies = new JButton[movieN];
+	private ImageIcon[] img_logo = new ImageIcon[movieN];
 	private ImageIcon[] imgPoster = new ImageIcon[movieN];
-	private DB_MovieInfo moive_connect = new DB_MovieInfo();
+	private JLabel[] movieName = new JLabel[4];
 	private Movie[] movies;
+	
+	//DB
+	private DB_MovieInfo moive_connect = new DB_MovieInfo();
 	
 	//Design
 	Font font1 = new Font("나눔바른고딕", Font.PLAIN, 20); 
-	Font font2 = new Font("나눔바른고딕", Font.PLAIN, 35);
+	Font font2 = new Font("휴먼둥근헤드라인", Font.PLAIN, 35);
+	Font font3 = new Font("휴먼둥근헤드라인", Font.PLAIN, 20);
 	
 	public DOKPage(User user) {
 		super("DOK");
@@ -42,6 +47,7 @@ public class DOKPage extends CategoryFrame {
 		getContentPane().setLayout(null);//레이아웃 null
 		setVisible(true);
 		
+	
 		
 		this.user = user;
 		
@@ -55,15 +61,17 @@ public class DOKPage extends CategoryFrame {
 		//박스 오피스 Label
 		boxoffice.setText("박스오피스");
 		boxoffice.setFont(font2);
-		boxoffice.setBounds(Main.SCREEN_WIDTH/2-(110/2),100,200,50);
+		boxoffice.setBounds(200,80,200,50);
 		panel.add(boxoffice);
 		
 		//더 많은 영화 보기 Lable
 		btn_plusMovie.setText("더 많은 영화보기");
-		btn_plusMovie.setFont(font1);
-		btn_plusMovie.setBounds(Main.SCREEN_WIDTH-300,120,200,50);
+		btn_plusMovie.setFont(font3);
+		btn_plusMovie.setFocusPainted(false);
+		btn_plusMovie.setBorderPainted(false);
+		btn_plusMovie.setBackground(Color.WHITE);
+		btn_plusMovie.setBounds(Main.SCREEN_WIDTH-350,120,200,50);
 		panel.add(btn_plusMovie);
-		
 		
 		movies = moive_connect.getMovieInfoAll("open_day");
 		
@@ -76,13 +84,19 @@ public class DOKPage extends CategoryFrame {
 			//imgPoster[i] = new ImageIcon("src/imges/겨울 왕국.jpg");
 			btn_Movies[i] = new JButton(imgPoster[i]);
 			btn_Movies[i].setIcon(imgPoster[i]);
-			btn_Movies[i].setBounds(x, 225, 250, 400);
+			btn_Movies[i].setBounds(x, 200, 250, 400);
 			panel.add(btn_Movies[i]);
 			
 		}
-			
+		
+		for(int i = 0; i < movieName.length; i++) {
+			int x = 300*(i)+ 180;
+			movieName[i] = new JLabel("어쩌구 저쩌구");
+			movieName[i].setBounds(x, 615, 250, 30);
+			movieName[i].setFont(font3);
+			movieName[i].setHorizontalAlignment(JLabel.CENTER);
+			panel.add(movieName[i]);
+		}
+		
 	}
-	
-	
-
 }

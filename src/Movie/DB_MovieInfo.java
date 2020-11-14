@@ -29,7 +29,7 @@ public class DB_MovieInfo {
 		
 		try {
 			String SQL = "select* from movie order by "+calum+" desc";
-			//System.out.println(SQL);
+			System.out.println(SQL);
 			rs = st.executeQuery(SQL);
 			int n=0;
 			while(rs.next()) {
@@ -62,7 +62,7 @@ public class DB_MovieInfo {
 		
 		try {
 			String SQL = "select* from movie where genre like '"+genr +"' order by "+ calum+" desc";
-		
+			System.out.println(SQL);
 			rs = st.executeQuery(SQL);
 			int n=0;
 			while(rs.next() ) {
