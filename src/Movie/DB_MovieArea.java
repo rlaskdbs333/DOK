@@ -9,8 +9,7 @@ public class DB_MovieArea {
 	private Connection con;
 	private Statement st;
 	private ResultSet rs;
-	private final static int DATA_NUM = 70;
-	private Movie[] movies = new Movie[DATA_NUM];
+	private MovieArea[] movieArea;
 	
 	public DB_MovieArea() {
 		try{
@@ -20,6 +19,7 @@ public class DB_MovieArea {
 		}catch (Exception e) {
 			System.out.println("데이터 베이스 연결 오류:"+e.getMessage());
 		}
+		movieArea = new MovieArea[30];
 	}
 	
 	
@@ -38,8 +38,42 @@ public class DB_MovieArea {
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		}
+		}	
+	}
 	
+	public MovieArea[] getMovieArea(int movie_key){
+		try {
+			String SQL = "select* from moviearea where movieKey like "+movie_key+";";
+			//System.out.println(SQL);
+			rs = st.executeQuery(SQL);
+			int n=0;
+			while(rs.next()) {
+				/*
+				 * System.out.println(rs.getString("m_name"));
+				 * System.out.println(rs.getString("genre"));
+				 * System.out.println(rs.getString("open_day"));
+				 * System.out.println(rs.getInt("audience"));
+				 * System.out.println(rs.getDouble("rating"));
+				 */
+				
+				movieArea[n] = new MovieArea();
+				movieArea[n].set_key(rs.getInt("_key"));
+				movieArea[n].setArea_key(rs.getInt("area_key"));
+				movieArea[n].setHall(rs.getString("hall"));
+				movieArea[n].setWeeks(rs.getInt("weeks"));
+				movieArea[n].setMovieKey(rs.getInt("movieKey"));
+				movieArea[n].setVacantSeat(rs.getInt("vacantSeat"));
+				movieArea[n].setSeatState(rs.getString("seatState"));
+				
+				n++;
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("DBMovieInfo데이터베이스 검색 오류:"+ e.getLocalizedMessage());
+		}
+		
+		return movieArea;
 		
 	}
 

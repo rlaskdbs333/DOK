@@ -9,6 +9,7 @@ public class MovieArea {
 	private int movieKey;
 	private int vacantSeat;
 	private String seatState;
+	public MovieArea() {}
 	public MovieArea(int _key, int area_key, String hall, int weeks, String startTime, int movieKey, int vacantSeat,
 			String seatState) {
 		super();

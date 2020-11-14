@@ -12,7 +12,7 @@ public class DB_Theater {
 	private Statement st;
 	private ResultSet rs;
 	private final static int AREA_NUM = 70;
-	private theaterInfo[] areas = new theaterInfo[AREA_NUM];
+	private Theater[] areas = new Theater[AREA_NUM];
 	
 	
 	public DB_Theater() {
@@ -44,13 +44,13 @@ public class DB_Theater {
 		
 	}
 	
-	public theaterInfo[] getTheater() {
+	public Theater[] getTheater() {
 		try {
 			String SQL = "SELECT* FROM theaterinfo";
 			rs = st.executeQuery(SQL);
 			int n = 0;
 			while(rs.next()) {
-				areas[n] = new theaterInfo();
+				areas[n] = new Theater();
 				areas[n].set_key(rs.getInt("_key"));
 				areas[n].setArea(rs.getString("area"));
 				areas[n].setCountry(rs.getString("country"));

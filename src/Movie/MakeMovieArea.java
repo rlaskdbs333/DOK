@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Random;
 
-import theater.theaterInfo;
+import theater.Theater;
 import theater.DB_Theater;
 
 public class MakeMovieArea {
@@ -59,7 +59,7 @@ public class MakeMovieArea {
 		
 		//객체생성
 		Movie[] movie = new Movie[MOVIE_NUM];
-		theaterInfo[] theterinfo = new theaterInfo[THEATER_NUM];
+		Theater[] theterinfo = new Theater[THEATER_NUM];
 		
 		//정보 불러오기
 		movie = movieInfo_connect.getMovieInfoAll("open_day");

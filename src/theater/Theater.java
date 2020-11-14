@@ -1,6 +1,6 @@
 package theater;
 
-public class theaterInfo {	
+public class Theater {	
 	
 	
 	
@@ -9,8 +9,8 @@ public class theaterInfo {
 	private String country;
 	private int numHall;
 	
-	public theaterInfo() {}
-	public theaterInfo(int _key, String area, String countrh, int numHall) {
+	public Theater() {}
+	public Theater(int _key, String area, String countrh, int numHall) {
 		super();
 		this._key = _key;
 		this.area = area;

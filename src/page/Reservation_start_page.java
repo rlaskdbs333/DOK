@@ -5,21 +5,33 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Movie.DB_MovieArea;
 import Movie.DB_MovieInfo;
 import Movie.Movie;
+import Movie.MovieArea;
 import User.User;
+import theater.DB_Theater;
+import theater.Theater;
 
 
-public class Reservation_start_page extends CategoryFrame{
+public class Reservation_start_page extends CategoryFrame implements ActionListener{
 	private final static int PaddingLeft = 40;
 	private final static int PaddingTop = 100;
 	private final static double Panel_Height = 700;
+	
+	//날짜
+	private Calendar cal = Calendar.getInstance();
+	private int date = cal.get(Calendar.DATE);
+	private int dayofweek = cal.get(Calendar.DAY_OF_WEEK);
+	private String[] weeks_name = {"","일","월","화","수","목","금","토"};
+	
 	
 	// size
 	private Dimension size = new Dimension();// 사이즈를 지정하기 위한 객체 생성
@@ -44,12 +56,21 @@ public class Reservation_start_page extends CategoryFrame{
 	private JLabel[] jlselectArea = new JLabel[2];
 	
 	//시간
-	private JButton[] btn_timetable = new JButton[7];
+	private JButton[] btn_timetable = new JButton[4];
 	private JLabel jlcontent = new JLabel();
 	
 	//DB
 	private DB_MovieInfo movie_connect = new DB_MovieInfo();
+	private DB_MovieArea moviearea_connect = new DB_MovieArea();
+	private DB_Theater theat_connect = new DB_Theater();
+	//
 	private Movie movie[];
+	private MovieArea movieArea[];
+	private Theater theater[];
+	
+	//count
+	private int movie_count = 0; 
+	private int area_count = 0; 
 	
 	//Design
 	Font font1 = new Font("휴먼둥근헤드라인", Font.PLAIN, 25);
@@ -68,6 +89,7 @@ public class Reservation_start_page extends CategoryFrame{
 		setBackground(Color.WHITE);
 		
 		this.user = user;
+		
 		
 		//영화 패널
 		m_panel.setBounds(PaddingLeft, PaddingTop, 400, 600);
@@ -92,17 +114,16 @@ public class Reservation_start_page extends CategoryFrame{
 		//영화 추가
 		movie = movie_connect.getMovieInfoAll("open_day");
 		int movieNum = movie_connect.countMovie();
-		
 		size.setSize(400, movieNum*50);
-		
-		JButton[] btn_movie= new JButton[movieNum];
+		JMovieButton[] btn_movie= new JMovieButton[movieNum];
 		for(int i=0; i<movieNum; i++){
-			btn_movie[i] = new JButton();
+			btn_movie[i] = new JMovieButton();
 			btn_movie[i].setHorizontalAlignment(JButton.LEFT);
 			btn_movie[i].setText(movie[i].getM_name());
 			btn_movie[i].setBounds(0, 50*i, 400, 50);
+			btn_movie[i].addActionListener(this);
+			btn_movie[i].setMovieKey(movie[i].get_key());
 			movielist_panel.add(btn_movie[i]);
-			
 		}
 		
 		
@@ -189,9 +210,11 @@ public class Reservation_start_page extends CategoryFrame{
 		jpanel.add(t_panel);
 		
 		for(int i = 0; i < btn_timetable.length; i++) {
-			btn_timetable[i] = new JButton((i + 1) + "");			
+			btn_timetable[i] = new JButton(date+"*"+weeks_name[dayofweek]);			
 			btn_timetable[i].setBounds(0 + (i * (500 / 7)), 0, (500 / 7), (500 / 7));
 			t_panel.add(btn_timetable[i]);
+			date+=1;
+			dayofweek+=1;
 		}
 		
 		jlcontent.setBounds(20, 100, 460, 125);
@@ -207,8 +230,6 @@ public class Reservation_start_page extends CategoryFrame{
 		
 		
 	}
-	
-	
 	
 	class ReservationEvent implements ActionListener{
 		@Override
@@ -226,5 +247,46 @@ public class Reservation_start_page extends CategoryFrame{
 			}
 			
 		}
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		//영화 버튼
+		if(movie_count<3) {
+			JMovieButton m = (JMovieButton) e.getSource();
+			int movie_key = m.getMovieKey();//영화 프라이머리_key가져오기
+			System.out.println(movie_key);
+			//movieArea = moviearea_connect.getMovieArea(movie_key);//키에 따른 정보 가져오기
+			//jlposter[count].setText(m.getText());
+			//count++;
+		}
+		
+		//지역 버튼
+		if(area_count<2) {
+			JButton m = (JButton)e.getSource();
+			
+		}
+		
+		
+		
+	}
+}
+
+class JMovieButton extends JButton{
+	private int movieKey;
+	public JMovieButton() {
+		// TODO Auto-generated constructor stub
+	}
+	public JMovieButton(String str) {
+		setText(str);
+	}
+	public int getMovieKey() {
+		return movieKey;
+	}
+	public void setMovieKey(int movieKey) {
+		this.movieKey = movieKey;
 	}
 }
