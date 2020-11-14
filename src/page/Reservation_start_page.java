@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Area.Area;
+import Area.DB_Area;
 import Movie.DB_MovieArea;
 import Movie.DB_MovieInfo;
 import Movie.Movie;
@@ -49,7 +51,7 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 
 	//지역
 	private JLabel jlarea = new JLabel("지역");
-	private JButton btn_seoul = new JButton("서울");
+	private JButton btn_seoul = new JButton();
 	private JButton btn_gyeonggi = new JButton("경기");
 	private JButton[] btn_seoullist = new JButton[4];
 	private JButton[] btn_gyeonggilist = new JButton[4];
@@ -62,15 +64,22 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 	//DB
 	private DB_MovieInfo movie_connect = new DB_MovieInfo();
 	private DB_MovieArea moviearea_connect = new DB_MovieArea();
-	private DB_Theater theat_connect = new DB_Theater();
+	private DB_Theater theater_connect = new DB_Theater();
+	private DB_Area area_connect = new DB_Area();
+	
 	//
-	private Movie movie[];
-	private MovieArea movieArea[];
-	private Theater theater[];
+	private Movie[] movie;
+	private MovieArea[] movieArea;
+	private Theater[] theater;
+	private Area[] area;
+	private int movie_key;
+	private String area_key;
+	private String country_key;
+	
 	
 	//count
 	private int movie_count = 0; 
-	private int area_count = 0; 
+	private int country_count = 0; 
 	
 	//Design
 	Font font1 = new Font("휴먼둥근헤드라인", Font.PLAIN, 25);
@@ -88,8 +97,10 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		setVisible(true);
 		setBackground(Color.WHITE);
 		
+		area = area_connect.getArea();
+		theater = theater_connect.getTheater("서울");
 		this.user = user;
-		
+		area_key = "서울";
 		
 		//영화 패널
 		m_panel.setBounds(PaddingLeft, PaddingTop, 400, 600);
@@ -152,45 +163,48 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		jlarea.setHorizontalAlignment(JLabel.CENTER);
 		a_panel.add(jlarea);
 		
+		//서울
+		btn_seoul.setText(area[3].getArea());
 		btn_seoul.setBounds(0, 75, 225, 40);
 		btn_seoul.setOpaque(true);
 		btn_seoul.setFont(font2);
 		btn_seoul.setHorizontalAlignment(JButton.CENTER);
-		btn_seoul.addActionListener(new ReservationEvent());
+		btn_seoul.addActionListener(new Reservation_area_Event());
 		a_panel.add(btn_seoul);
-		
+		//경기
+		btn_gyeonggi.setText(area[0].getArea());
 		btn_gyeonggi.setBounds(225, 75, 225, 40);
 		btn_gyeonggi.setFont(font2);
 		btn_gyeonggi.setHorizontalAlignment(JButton.CENTER);
-		btn_gyeonggi.addActionListener(new ReservationEvent());
+		btn_gyeonggi.addActionListener(new Reservation_area_Event());
 		a_panel.add(btn_gyeonggi);
 		
-		btn_seoullist[0] = new JButton("* 강남");
-		btn_seoullist[1] = new JButton("* 송파");
-		btn_seoullist[2] = new JButton("* 은평");
-		btn_seoullist[3] = new JButton("* 홍대");
-		
+		//서울 지역
 		for(int i = 0; i < btn_seoullist.length; i++) {
+			//btn_seoullist[i] = new JButton(theater[i].getCountry());
+			btn_seoullist[i] = new JButton();
+			btn_seoullist[i].setText(theater[i].getCountry());
 			btn_seoullist[i].setBounds(10, 150 + (i * 60), 100, 40);
 			btn_seoullist[i].setFocusPainted(false);
 			btn_seoullist[i].setBorderPainted(false);
 			btn_seoullist[i].setOpaque(false);
 			btn_seoullist[i].setFont(font2);
+			btn_seoullist[i].addActionListener(new Reservation_country_Event());
 			a_panel.add(btn_seoullist[i]);
 		}
 		
-		btn_gyeonggilist[0] = new JButton("* 구리");
-		btn_gyeonggilist[1] = new JButton("* 성남");
-		btn_gyeonggilist[2] = new JButton("* 수원");
-		btn_gyeonggilist[3] = new JButton("* 판교");
-		
-		for(int i = 0; i < btn_seoullist.length; i++) {
+		//경기 지역
+		theater = theater_connect.getTheater("경기");
+		for(int i = 0; i < btn_gyeonggilist.length; i++) {
+			btn_gyeonggilist[i] = new JButton();
+			btn_gyeonggilist[i].setText(theater[i].getCountry());
 			btn_gyeonggilist[i].setVisible(false);
 			btn_gyeonggilist[i].setBounds(10, 150 + (i * 60), 100, 40);
 			btn_gyeonggilist[i].setFocusPainted(false);
 			btn_gyeonggilist[i].setBorderPainted(false);
 			btn_gyeonggilist[i].setOpaque(false);
 			btn_gyeonggilist[i].setFont(font2);
+			btn_gyeonggilist[i].addActionListener(new Reservation_country_Event());
 			a_panel.add(btn_gyeonggilist[i]);
 		}
 		
@@ -231,25 +245,37 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		
 	}
 	
-	class ReservationEvent implements ActionListener{
+	class Reservation_area_Event implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == btn_seoul) {
 				for(int i = 0; i < btn_seoullist.length; i++) {
-					btn_gyeonggilist[i].setVisible(false);
 					btn_seoullist[i].setVisible(true);
+					btn_gyeonggilist[i].setVisible(false);
+					area_key = "서울";
 				}
-			}else if(e.getSource() == btn_gyeonggi) {
-				for(int i = 0; i < btn_seoullist.length; i++) {
-					btn_gyeonggilist[i].setVisible(true);
+			}else if(e.getSource() == btn_gyeonggi){
+				for(int i = 0; i < btn_gyeonggilist.length; i++) {
 					btn_seoullist[i].setVisible(false);
+					btn_gyeonggilist[i].setVisible(true);
+					area_key = "경기";
 				}
 			}
 			
 		}
 	}
-
-
+	
+	class Reservation_country_Event implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(country_count<2) {
+				JButton btn = (JButton) e.getSource();
+				country_key =  btn.getText();
+				
+				System.out.println(movie_key+","+area_key+","+country_key);
+			}
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -257,19 +283,12 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		//영화 버튼
 		if(movie_count<3) {
 			JMovieButton m = (JMovieButton) e.getSource();
-			int movie_key = m.getMovieKey();//영화 프라이머리_key가져오기
+			movie_key = m.getMovieKey();//영화 프라이머리_key가져오기
 			System.out.println(movie_key);
 			//movieArea = moviearea_connect.getMovieArea(movie_key);//키에 따른 정보 가져오기
 			//jlposter[count].setText(m.getText());
 			//count++;
 		}
-		
-		//지역 버튼
-		if(area_count<2) {
-			JButton m = (JButton)e.getSource();
-			
-		}
-		
 		
 		
 	}
