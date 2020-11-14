@@ -7,59 +7,56 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 
+import Movie.DB_MovieInfo;
+import Movie.Movie;
 import User.User;
 
 
 public class Reservation_start_page extends CategoryFrame{
 	private final static int PaddingLeft = 40;
 	private final static int PaddingTop = 100;
-	
 	private final static double Panel_Height = 700;
 	
 	// size
 	private Dimension size = new Dimension();// 사이즈를 지정하기 위한 객체 생성
 	
-	
 	//component
-	private JPanel panel = new JPanel();
+	private JPanel jpanel = new JPanel();
 	private JPanel m_panel = new JPanel();
 	private JPanel a_panel = new JPanel();
 	private JPanel t_panel = new JPanel();
 	
-	
 	//영화
-	private JLabel movie = new JLabel("영화");
-	private JPanel movielist = new JPanel();
-	private JLabel[] poster = new JLabel[3];
+	private JLabel jlmovie = new JLabel("영화");
+	private JPanel movielist_panel = new JPanel();
+	private JLabel[] jlposter = new JLabel[3];
 
-	
-	
 	//지역
-	private JLabel area = new JLabel("지역");
-	private JButton seoul = new JButton("서울");
-	private JButton gyeonggi = new JButton("경기");
-	private JButton[] seoullist = new JButton[4];
-	private JButton[] gyeonggilist = new JButton[4];
-	private JLabel[] selectArea = new JLabel[2];
-	
+	private JLabel jlarea = new JLabel("지역");
+	private JButton btn_seoul = new JButton("서울");
+	private JButton btn_gyeonggi = new JButton("경기");
+	private JButton[] btn_seoullist = new JButton[4];
+	private JButton[] btn_gyeonggilist = new JButton[4];
+	private JLabel[] jlselectArea = new JLabel[2];
 	
 	//시간
-	private JButton[] timetable = new JButton[7];
-	private JLabel content = new JLabel();
+	private JButton[] btn_timetable = new JButton[7];
+	private JLabel jlcontent = new JLabel();
 	
+	//DB
+	private DB_MovieInfo movie_connect = new DB_MovieInfo();
+	private Movie movie[];
 	
 	//Design
 	Font font1 = new Font("휴먼둥근헤드라인", Font.PLAIN, 25);
 	Font font2 = new Font("휴먼둥근헤드라인", Font.PLAIN, 20);
-	public Reservation_start_page() {}
 	
+	public Reservation_start_page() {}
+
 	public Reservation_start_page(User user) {
 		super("예매");
 		
@@ -77,32 +74,48 @@ public class Reservation_start_page extends CategoryFrame{
 		m_panel.setOpaque(true);
 		m_panel.setBackground(Color.LIGHT_GRAY);
 		m_panel.setLayout(null);
-		panel.add(m_panel);
+		jpanel.add(m_panel);
 		
-		movie.setBounds(5, 5, 60, 40);
-		movie.setFont(font1);
-		movie.setHorizontalAlignment(JLabel.CENTER);
-		m_panel.add(movie);
-		
-		
-		size.setSize(400, 600);
+		jlmovie.setBounds(5, 5, 60, 40);
+		jlmovie.setFont(font1);
+		jlmovie.setHorizontalAlignment(JLabel.CENTER);
+		m_panel.add(jlmovie);
 		
 		
 		
-		movielist.setOpaque(true);
-		movielist.setBackground(Color.DARK_GRAY);
-		movielist.setLayout(null);
-		movielist.setPreferredSize(size);
-		JScrollPane sp = new JScrollPane(movielist, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		//영화 패널
+		movielist_panel.setOpaque(true);
+		movielist_panel.setBackground(Color.DARK_GRAY);
+		movielist_panel.setLayout(null);
+		movielist_panel.setPreferredSize(size);
+		
+		//영화 추가
+		movie = movie_connect.getMovieInfoAll("open_day");
+		int movieNum = movie_connect.countMovie();
+		
+		size.setSize(400, movieNum*50);
+		
+		JButton[] btn_movie= new JButton[movieNum];
+		for(int i=0; i<movieNum; i++){
+			btn_movie[i] = new JButton();
+			btn_movie[i].setHorizontalAlignment(JButton.LEFT);
+			btn_movie[i].setText(movie[i].getM_name());
+			btn_movie[i].setBounds(0, 50*i, 400, 50);
+			movielist_panel.add(btn_movie[i]);
+			
+		}
+		
+		
+		JScrollPane sp = new JScrollPane(movielist_panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sp.setBounds(0, 75, 400, 350);
 		m_panel.add(sp);
 		
-		for(int i = 0; i < poster.length; i++) {
-			poster[i] = new JLabel();
-			poster[i].setBounds(20 + (i * 130), 440, 100, 140);
-			poster[i].setOpaque(true);
-			poster[i].setBackground(Color.ORANGE);
-			m_panel.add(poster[i]);
+		for(int i = 0; i < jlposter.length; i++) {
+			jlposter[i] = new JLabel();
+			jlposter[i].setBounds(20 + (i * 130), 440, 100, 140);
+			jlposter[i].setOpaque(true);
+			jlposter[i].setBackground(Color.ORANGE);
+			m_panel.add(jlposter[i]);
 		}
 		
 		
@@ -111,61 +124,61 @@ public class Reservation_start_page extends CategoryFrame{
 		a_panel.setOpaque(true);
 		a_panel.setBackground(Color.LIGHT_GRAY);
 		a_panel.setLayout(null);
-		panel.add(a_panel);
+		jpanel.add(a_panel);
 		
-		area.setBounds(5, 5, 60, 40);
-		area.setFont(font1);
-		area.setHorizontalAlignment(JLabel.CENTER);
-		a_panel.add(area);
+		jlarea.setBounds(5, 5, 60, 40);
+		jlarea.setFont(font1);
+		jlarea.setHorizontalAlignment(JLabel.CENTER);
+		a_panel.add(jlarea);
 		
-		seoul.setBounds(0, 75, 225, 40);
-		seoul.setOpaque(true);
-		seoul.setFont(font2);
-		seoul.setHorizontalAlignment(JButton.CENTER);
-		seoul.addActionListener(new ReservationEvent());
-		a_panel.add(seoul);
+		btn_seoul.setBounds(0, 75, 225, 40);
+		btn_seoul.setOpaque(true);
+		btn_seoul.setFont(font2);
+		btn_seoul.setHorizontalAlignment(JButton.CENTER);
+		btn_seoul.addActionListener(new ReservationEvent());
+		a_panel.add(btn_seoul);
 		
-		gyeonggi.setBounds(225, 75, 225, 40);
-		gyeonggi.setFont(font2);
-		gyeonggi.setHorizontalAlignment(JButton.CENTER);
-		gyeonggi.addActionListener(new ReservationEvent());
-		a_panel.add(gyeonggi);
+		btn_gyeonggi.setBounds(225, 75, 225, 40);
+		btn_gyeonggi.setFont(font2);
+		btn_gyeonggi.setHorizontalAlignment(JButton.CENTER);
+		btn_gyeonggi.addActionListener(new ReservationEvent());
+		a_panel.add(btn_gyeonggi);
 		
-		seoullist[0] = new JButton("* 강남");
-		seoullist[1] = new JButton("* 송파");
-		seoullist[2] = new JButton("* 은평");
-		seoullist[3] = new JButton("* 홍대");
+		btn_seoullist[0] = new JButton("* 강남");
+		btn_seoullist[1] = new JButton("* 송파");
+		btn_seoullist[2] = new JButton("* 은평");
+		btn_seoullist[3] = new JButton("* 홍대");
 		
-		for(int i = 0; i < seoullist.length; i++) {
-			seoullist[i].setBounds(10, 150 + (i * 60), 100, 40);
-			seoullist[i].setFocusPainted(false);
-			seoullist[i].setBorderPainted(false);
-			seoullist[i].setOpaque(false);
-			seoullist[i].setFont(font2);
-			a_panel.add(seoullist[i]);
+		for(int i = 0; i < btn_seoullist.length; i++) {
+			btn_seoullist[i].setBounds(10, 150 + (i * 60), 100, 40);
+			btn_seoullist[i].setFocusPainted(false);
+			btn_seoullist[i].setBorderPainted(false);
+			btn_seoullist[i].setOpaque(false);
+			btn_seoullist[i].setFont(font2);
+			a_panel.add(btn_seoullist[i]);
 		}
 		
-		gyeonggilist[0] = new JButton("* 구리");
-		gyeonggilist[1] = new JButton("* 성남");
-		gyeonggilist[2] = new JButton("* 수원");
-		gyeonggilist[3] = new JButton("* 판교");
+		btn_gyeonggilist[0] = new JButton("* 구리");
+		btn_gyeonggilist[1] = new JButton("* 성남");
+		btn_gyeonggilist[2] = new JButton("* 수원");
+		btn_gyeonggilist[3] = new JButton("* 판교");
 		
-		for(int i = 0; i < seoullist.length; i++) {
-			gyeonggilist[i].setVisible(false);
-			gyeonggilist[i].setBounds(10, 150 + (i * 60), 100, 40);
-			gyeonggilist[i].setFocusPainted(false);
-			gyeonggilist[i].setBorderPainted(false);
-			gyeonggilist[i].setOpaque(false);
-			gyeonggilist[i].setFont(font2);
-			a_panel.add(gyeonggilist[i]);
+		for(int i = 0; i < btn_seoullist.length; i++) {
+			btn_gyeonggilist[i].setVisible(false);
+			btn_gyeonggilist[i].setBounds(10, 150 + (i * 60), 100, 40);
+			btn_gyeonggilist[i].setFocusPainted(false);
+			btn_gyeonggilist[i].setBorderPainted(false);
+			btn_gyeonggilist[i].setOpaque(false);
+			btn_gyeonggilist[i].setFont(font2);
+			a_panel.add(btn_gyeonggilist[i]);
 		}
 		
-		for(int i = 0; i < selectArea.length; i++) {
-			selectArea[i] = new JLabel();
-			selectArea[i].setBounds(50 + (i * 200), 440, 150, 150);
-			selectArea[i].setOpaque(true);
-			selectArea[i].setBackground(Color.ORANGE);
-			a_panel.add(selectArea[i]);
+		for(int i = 0; i < jlselectArea.length; i++) {
+			jlselectArea[i] = new JLabel();
+			jlselectArea[i].setBounds(50 + (i * 200), 440, 150, 150);
+			jlselectArea[i].setOpaque(true);
+			jlselectArea[i].setBackground(Color.ORANGE);
+			a_panel.add(jlselectArea[i]);
 		}
 		
 		//시간표
@@ -173,24 +186,24 @@ public class Reservation_start_page extends CategoryFrame{
 		t_panel.setOpaque(true);
 		t_panel.setBackground(Color.LIGHT_GRAY);
 		t_panel.setLayout(null);
-		panel.add(t_panel);
+		jpanel.add(t_panel);
 		
-		for(int i = 0; i < timetable.length; i++) {
-			timetable[i] = new JButton((i + 1) + "");			
-			timetable[i].setBounds(0 + (i * (500 / 7)), 0, (500 / 7), (500 / 7));
-			t_panel.add(timetable[i]);
+		for(int i = 0; i < btn_timetable.length; i++) {
+			btn_timetable[i] = new JButton((i + 1) + "");			
+			btn_timetable[i].setBounds(0 + (i * (500 / 7)), 0, (500 / 7), (500 / 7));
+			t_panel.add(btn_timetable[i]);
 		}
 		
-		content.setBounds(20, 100, 460, 125);
-		content.setOpaque(true);
-		content.setBackground(Color.YELLOW);
-		t_panel.add(content);
+		jlcontent.setBounds(20, 100, 460, 125);
+		jlcontent.setOpaque(true);
+		jlcontent.setBackground(Color.YELLOW);
+		t_panel.add(jlcontent);
 		
 		//Panel
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0,(int) (Main.SCREEN_HEIGHT*0.25),Main.SCREEN_WIDTH,(int)(Main.SCREEN_HEIGHT*0.75));
-		panel.setLayout(null);
-		add(panel);
+		jpanel.setBackground(Color.WHITE);
+		jpanel.setBounds(0,(int) (Main.SCREEN_HEIGHT*0.25),Main.SCREEN_WIDTH,(int)(Main.SCREEN_HEIGHT*0.75));
+		jpanel.setLayout(null);
+		add(jpanel);
 		
 		
 	}
@@ -200,15 +213,15 @@ public class Reservation_start_page extends CategoryFrame{
 	class ReservationEvent implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == seoul) {
-				for(int i = 0; i < seoullist.length; i++) {
-					gyeonggilist[i].setVisible(false);
-					seoullist[i].setVisible(true);
+			if(e.getSource() == btn_seoul) {
+				for(int i = 0; i < btn_seoullist.length; i++) {
+					btn_gyeonggilist[i].setVisible(false);
+					btn_seoullist[i].setVisible(true);
 				}
-			}else if(e.getSource() == gyeonggi) {
-				for(int i = 0; i < seoullist.length; i++) {
-					gyeonggilist[i].setVisible(true);
-					seoullist[i].setVisible(false);
+			}else if(e.getSource() == btn_gyeonggi) {
+				for(int i = 0; i < btn_seoullist.length; i++) {
+					btn_gyeonggilist[i].setVisible(true);
+					btn_seoullist[i].setVisible(false);
 				}
 			}
 			

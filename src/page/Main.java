@@ -12,13 +12,13 @@ public class Main {
 	public static void main(String[] args) {
 		
 		//new DOKPage(user);
-		//new  Reservation_start_page();
+		new  Reservation_start_page(user);
 		//new LoginPage();
 		//new MovieSitPage();
 		//new SignUpPage();
 		//new Reservation_start_page();
 		//new MyPage(user);
-		new ChartPage(user);
+		//new ChartPage(user);
 		//new P_InformationPage(user);
 		//new ChartPage();
 	}
