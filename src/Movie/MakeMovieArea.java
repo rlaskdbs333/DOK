@@ -20,13 +20,13 @@ public class MakeMovieArea {
 				
 			
 	String[] hallNum;
-	String[] hallName = {"1包", "2包", "3包", "4包", "5包"};
+	String[] hallName = {"1包", "2包", "3包", "4包", "5包","6包","7包","8包","9包","10包"};
 	//2,4
-	String[][] hall_time = {{"11:50","14:35", "17:20 ","22:20"},
-						{"10:00", "16:30", "18:50" ,"21:10"},
-						{"12:10 ","16:55" ,"19:15 " ,"22:40"},
-						{"12:10", "16:50 ", "21:40 ", "23:00 "},
-						{"12:30 ", "14:40 ", "17:05 ", "19:45 "}};
+	String[][] hall_time = {{"10:00", "16:30", "19:00" ,"21:10"},
+						{"12:10 ","16:30" ,"19:10 " ,"22:30"}};
+						/*{"12:10", "16:50 ", "21:40 ", "23:00 "},
+						{"12:30 ", "14:40 ", "17:05 ", "19:45 "},
+						{"12:10", "16:50 ", "21:40 ", "23:00 "},};*/
 	
 	//String[] hall2_time = ;
 	/*
@@ -65,23 +65,37 @@ public class MakeMovieArea {
 		movie = movieInfo_connect.getMovieInfoAll("open_day");
 		theterinfo = theater_connect.getTheater();
 		
-		for(int i=0; i<THEATER_NUM; i++) {
-			for(int j=0; j<5; j++) {
-				random = (int)(Math.random()*70);
-				for(int l=0; l<4; l++) {
-					//System.out.println(theterinfo[i].get_key()+","+hallName[j]+","+hall_time[j][l]+","+movie[random].get_key());
-					movieArea_connect.makeMovie_Area(theterinfo[i].get_key(),hallName[j],4, hall_time[j][l],movie[random].get_key(),seat,seatState);
+		int n=0;
+		int count_theater = theater_connect.countTheater();
+		
+		//康拳 10俺 眠啊
+		System.out.println(count_theater);
+		for(int k=0; k<count_theater; k++) {
+			n=0;
+			for(int g =0; g<4; g++) {
+				for(int i=0; i<10; i++) {
+					for(int j=0; j<2; j++) {
+						//System.out.println(theterinfo[k].get_key()+","+hallName[i]+","+hall_time[i%2][j]+","+n+","+g +",m:"+movie[n].get_key());
+						//movieArea_connect.makeMovie_Area(theterinfo[k].get_key(),hallName[i],g, hall_time[i%2][j],movie[n].get_key(),seat,seatState);
+					}
+					n++;
+					
 				}
+				//System.out.println(g);
 			}
+			//System.out.println(k);
 		}
-	
+		
+		
+		
+		
 	}
 	
 	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new MakeMovieArea();
+		//new MakeMovieArea();
 	}
 
 }

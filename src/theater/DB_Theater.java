@@ -89,6 +89,7 @@ public class DB_Theater {
 		return theaters;
 		
 	}
+	
 	public int countTheater() {
 		int n = 0;
 		try {

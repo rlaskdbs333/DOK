@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -53,13 +54,13 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 	private JLabel jlarea = new JLabel("지역");
 	private JButton btn_seoul = new JButton();
 	private JButton btn_gyeonggi = new JButton("경기");
-	private JButton[] btn_seoullist = new JButton[4];
-	private JButton[] btn_gyeonggilist = new JButton[4];
+	private JKeyButton[] btn_seoullist = new JKeyButton[4];
+	private JKeyButton[] btn_gyeonggilist = new JKeyButton[4];
 	private JLabel[] jlselectArea = new JLabel[2];
 	
 	//시간
 	private JButton[] btn_timetable = new JButton[4];
-	private JLabel jlcontent = new JLabel();
+	private JLabel[] jlcontent;
 	
 	//DB
 	private DB_MovieInfo movie_connect = new DB_MovieInfo();
@@ -69,13 +70,13 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 	
 	//
 	private Movie[] movie;
-	private MovieArea[] movieArea;
+	private Vector<MovieArea> movieAreas = new Vector<MovieArea>();
 	private Theater[] theater;
 	private Area[] area;
 	private int movie_key;
 	private String area_key;
 	private String country_key;
-	
+	private int theater_key;
 	
 	//count
 	private int movie_count = 0; 
@@ -124,16 +125,16 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		
 		//영화 추가
 		movie = movie_connect.getMovieInfoAll("open_day");
-		int movieNum = movie_connect.countMovie();
+		int movieNum = (movie_connect.countMovie())/2;
 		size.setSize(400, movieNum*50);
-		JMovieButton[] btn_movie= new JMovieButton[movieNum];
+		JKeyButton[] btn_movie= new JKeyButton[movieNum];
 		for(int i=0; i<movieNum; i++){
-			btn_movie[i] = new JMovieButton();
+			btn_movie[i] = new JKeyButton();
 			btn_movie[i].setHorizontalAlignment(JButton.LEFT);
 			btn_movie[i].setText(movie[i].getM_name());
 			btn_movie[i].setBounds(0, 50*i, 400, 50);
 			btn_movie[i].addActionListener(this);
-			btn_movie[i].setMovieKey(movie[i].get_key());
+			btn_movie[i].setKey(movie[i].get_key());
 			movielist_panel.add(btn_movie[i]);
 		}
 		
@@ -182,7 +183,8 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		//서울 지역
 		for(int i = 0; i < btn_seoullist.length; i++) {
 			//btn_seoullist[i] = new JButton(theater[i].getCountry());
-			btn_seoullist[i] = new JButton();
+			btn_seoullist[i] = new JKeyButton();
+			btn_seoullist[i].setKey(theater[i].get_key());//theater_key
 			btn_seoullist[i].setText(theater[i].getCountry());
 			btn_seoullist[i].setBounds(10, 150 + (i * 60), 100, 40);
 			btn_seoullist[i].setFocusPainted(false);
@@ -196,8 +198,10 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		//경기 지역
 		theater = theater_connect.getTheater("경기");
 		for(int i = 0; i < btn_gyeonggilist.length; i++) {
-			btn_gyeonggilist[i] = new JButton();
+			btn_gyeonggilist[i] = new JKeyButton();
+			btn_gyeonggilist[i].setKey(theater[i].get_key());//theater_key
 			btn_gyeonggilist[i].setText(theater[i].getCountry());
+			theater[i].get_key();
 			btn_gyeonggilist[i].setVisible(false);
 			btn_gyeonggilist[i].setBounds(10, 150 + (i * 60), 100, 40);
 			btn_gyeonggilist[i].setFocusPainted(false);
@@ -231,10 +235,8 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 			dayofweek+=1;
 		}
 		
-		jlcontent.setBounds(20, 100, 460, 125);
-		jlcontent.setOpaque(true);
-		jlcontent.setBackground(Color.YELLOW);
-		t_panel.add(jlcontent);
+		//영화 시간표패널
+		sp = new JScrollPane(movielist_panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		//Panel
 		jpanel.setBackground(Color.WHITE);
@@ -245,6 +247,7 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		
 	}
 	
+	//지역버튼
 	class Reservation_area_Event implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -265,14 +268,30 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		}
 	}
 	
+	//area 버튼
 	class Reservation_country_Event implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(country_count<2) {
-				JButton btn = (JButton) e.getSource();
+				JKeyButton btn = (JKeyButton) e.getSource();
 				country_key =  btn.getText();
+				theater_key = btn.getKey();
+				//System.out.println(movie_key+","+area_key+","+country_key+","+theater_key);
+				movieAreas = moviearea_connect.getMovieArea(movie_key,theater_key);//키에 따른 정보 가져오기
+				System.out.println("ss"+movieAreas.size());
+				jlcontent = new JLabel[movieAreas.size()];
 				
-				System.out.println(movie_key+","+area_key+","+country_key);
+				for(int i=0; i<movieAreas.size(); i++) { 
+					
+					jlcontent[i] = new JLabel();
+					jlcontent[i].setBounds(20, 100+130*i, 460, 125);
+					jlcontent[i].setText(movieAreas.get(i).getWeeks()+","+movieAreas.get(i).getHall()+","+movieAreas.get(i).get_key());
+					jlcontent[i].setOpaque(true); jlcontent[i].setBackground(Color.YELLOW);
+				 	t_panel.add(jlcontent[i]);
+				  
+				}
+				 
+				
 			}
 		}
 	}
@@ -282,30 +301,27 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		
 		//영화 버튼
 		if(movie_count<3) {
-			JMovieButton m = (JMovieButton) e.getSource();
-			movie_key = m.getMovieKey();//영화 프라이머리_key가져오기
+			JKeyButton m = (JKeyButton) e.getSource();
+			movie_key = m.getKey();//영화 프라이머리_key가져오기
 			System.out.println(movie_key);
-			//movieArea = moviearea_connect.getMovieArea(movie_key);//키에 따른 정보 가져오기
-			//jlposter[count].setText(m.getText());
-			//count++;
 		}
 		
 		
 	}
 }
 
-class JMovieButton extends JButton{
-	private int movieKey;
-	public JMovieButton() {
+class JKeyButton extends JButton{
+	private int key;
+	public JKeyButton() {
 		// TODO Auto-generated constructor stub
 	}
-	public JMovieButton(String str) {
+	public JKeyButton(String str) {
 		setText(str);
 	}
-	public int getMovieKey() {
-		return movieKey;
+	public int getKey() {
+		return key;
 	}
-	public void setMovieKey(int movieKey) {
-		this.movieKey = movieKey;
+	public void setKey(int Key) {
+		this.key = Key;
 	}
 }
