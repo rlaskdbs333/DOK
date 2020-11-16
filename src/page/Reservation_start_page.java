@@ -48,6 +48,7 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 	//영화
 	private JLabel jlmovie = new JLabel("영화");
 	private JPanel movielist_panel = new JPanel();
+	private JPanel time_panel = new JPanel();
 	private JLabel[] jlposter = new JLabel[3];
 
 	//지역
@@ -57,6 +58,7 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 	private JKeyButton[] btn_seoullist = new JKeyButton[4];
 	private JKeyButton[] btn_gyeonggilist = new JKeyButton[4];
 	private JLabel[] jlselectArea = new JLabel[2];
+	private JScrollPane sp1;
 	
 	//시간
 	private JButton[] btn_timetable = new JButton[4];
@@ -227,6 +229,7 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 		t_panel.setLayout(null);
 		jpanel.add(t_panel);
 		
+		//날짜
 		for(int i = 0; i < btn_timetable.length; i++) {
 			btn_timetable[i] = new JButton(date+"*"+weeks_name[dayofweek]);			
 			btn_timetable[i].setBounds(0 + (i * (500 / 7)), 0, (500 / 7), (500 / 7));
@@ -235,8 +238,22 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 			dayofweek+=1;
 		}
 		
-		//영화 시간표패널
-		sp = new JScrollPane(movielist_panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		
+		//영화 시간표
+		jlcontent = new JLabel[2];
+		for(int i=0; i<2; i++){
+			jlcontent[i] = new JLabel(); 
+			jlcontent[i].setText(movie[i].getM_name());
+			jlcontent[i].setBounds(0, 50*i, 400, 50);
+			time_panel.add(jlcontent[i]);
+		}
+		
+		
+		sp1 = new JScrollPane(time_panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		sp1.setBounds(0, 75, 400, 350);
+		t_panel.add(sp1);
+		
 		
 		//Panel
 		jpanel.setBackground(Color.WHITE);
@@ -278,18 +295,10 @@ public class Reservation_start_page extends CategoryFrame implements ActionListe
 				theater_key = btn.getKey();
 				//System.out.println(movie_key+","+area_key+","+country_key+","+theater_key);
 				movieAreas = moviearea_connect.getMovieArea(movie_key,theater_key);//키에 따른 정보 가져오기
-				System.out.println("ss"+movieAreas.size());
-				jlcontent = new JLabel[movieAreas.size()];
+				//System.out.println("ss"+movieAreas.size());
 				
-				for(int i=0; i<movieAreas.size(); i++) { 
-					
-					jlcontent[i] = new JLabel();
-					jlcontent[i].setBounds(20, 100+130*i, 460, 125);
-					jlcontent[i].setText(movieAreas.get(i).getWeeks()+","+movieAreas.get(i).getHall()+","+movieAreas.get(i).get_key());
-					jlcontent[i].setOpaque(true); jlcontent[i].setBackground(Color.YELLOW);
-				 	t_panel.add(jlcontent[i]);
-				  
-				}
+				
+				
 				 
 				
 			}
